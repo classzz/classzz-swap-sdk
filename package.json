@@ -1,7 +1,7 @@
 {
-  "name": "@classzz-swap/sdk",
+  "name": "@classzz/classzz-swap-sdk",
   "license": "MIT",
-  "version": "3.0.2",
+  "version": "0.0.2",
   "description": "🛠 An SDK for building applications on top of ClasszzSwap.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -58,3 +58,4 @@
     "singleQuote": true
   }
 }
+ 
