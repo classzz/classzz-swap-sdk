@@ -6,8 +6,9 @@ import { Pair } from './entities/pair'
 import IUniswapV2Pair from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import invariant from 'tiny-invariant'
 import ERC20 from './abis/ERC20.json'
-import { ChainId } from './constants'
+import {ChainId} from './constants'
 import { Token } from './entities/token'
+
 
 let TOKEN_DECIMALS_CACHE: { [chainId: number]: { [address: string]: number } } = {
   [ChainId.MAINNET]: {
@@ -64,14 +65,14 @@ export abstract class Fetcher {
   public static async fetchPairData(
     tokenA: Token,
     tokenB: Token,
+    factoryAddreaa:string,
+    initCodeHash: string,
     provider = getDefaultProvider(getNetwork(tokenA.chainId)),
-    factoryAddreaa:Token,
-    initCodeHash: Token,
   ): Promise<Pair> {
     invariant(tokenA.chainId === tokenB.chainId, 'CHAIN_ID')
     const address = Pair.getAddress(tokenA, tokenB, factoryAddreaa, initCodeHash)
     const [reserves0, reserves1] = await new Contract(address, IUniswapV2Pair.abi, provider).getReserves()
     const balances = tokenA.sortsBefore(tokenB) ? [reserves0, reserves1] : [reserves1, reserves0]
-    return new Pair(new TokenAmount(tokenA, balances[0]), new TokenAmount(tokenB, balances[1]))
+    return new Pair(new TokenAmount(tokenA, balances[0]), new TokenAmount(tokenB, balances[1]),factoryAddreaa, initCodeHash)
   }
 }
